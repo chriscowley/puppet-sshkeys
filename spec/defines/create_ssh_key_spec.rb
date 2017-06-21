@@ -36,5 +36,23 @@ describe 'sshkeys::create_ssh_key' do
       })
     end
   end
+  context "With custom parameters to create ed25519 key" do
 
+    let(:title) { 'jdoe' }
+
+    let :params do
+      {
+        :ssh_keytype => 'ed25519',
+        :passphrase  => 'foobar',
+      }
+    end
+
+    it do
+      should contain_exec('ssh_keygen-jdoe').with({
+        :command => "/usr/bin/ssh-keygen -t ed25519 -b 128 -f '/home/jdoe/.ssh/id_dsa' -N 'foobar' -C 'jdoe@example.com'",
+        :user    => 'jdoe',
+        :creates => '/home/jdoe/.ssh/id_dsa',
+      })
+    end
+  end
 end

@@ -28,6 +28,8 @@ if homedir_users != nil and homedir_users.size > 0
         key = IO.read("#{homedir}/.ssh/id_rsa.pub")
       elsif File.exists?("#{homedir}/.ssh/id_dsa.pub")
         key = IO.read("#{homedir}/.ssh/id_dsa.pub")
+      elsif File.exists?("#{homedir}/.ssh/id_ed25519.pub")
+        key = IO.read("#{homedir}/.ssh/id_ed25519.pub")
       end
       if key
         users[user] = key
@@ -46,6 +48,8 @@ else
       key = IO.read("#{homedir}/.ssh/id_rsa.pub")
     elsif File.exists?("#{homedir}/.ssh/id_dsa.pub")
       key = IO.read("#{homedir}/.ssh/id_dsa.pub")
+    elsif File.exists?("#{homedir}/.ssh/id_ed25519.pub")
+      key = IO.read("#{homedir}/.ssh/id_ed25519.pub")
     end
 
     if key

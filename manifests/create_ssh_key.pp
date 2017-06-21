@@ -20,14 +20,14 @@
 #     Whether to create the directory.
 #
 #   [*ssh_keytype*]
-#     Either rsa or dsa.
+#     Either ed25519, rsa or dsa.
 #
 #   [*passphrase*]
 #     Optional passphrase to set on the key.
 #
 #   [*bit_length*]
 #     Optional bit length for key.
-#     Defaults to 2048 for rsa and 1024 for dsa.
+#     Defaults to 2048 for rsa and 1024 for dsa. N/A for ED25519
 #
 define sshkeys::create_ssh_key (
   $owner          = undef,
@@ -59,6 +59,7 @@ define sshkeys::create_ssh_key (
     # Set $bitlength to default if no value provided
     $rsa_default = '2048'
     $dsa_default = '1024'
+    $ed25519_default = '128'
   
     if $ssh_bitlength {
       $bitlength = $ssh_bitlength
@@ -70,8 +71,11 @@ define sshkeys::create_ssh_key (
         'dsa': {
           $bitlength = $dsa_default
         }
+        'ed25519': {
+          $bitlength = $ed25519_default
+        }
         default: {
-          fail('The sshkeys module currently supports only rsa or dsa default bit lengths')
+          fail('The sshkeys module currently supports only ed25519, rsa or dsa default bit lengths')
         }
       }
     }
